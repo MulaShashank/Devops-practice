@@ -1,0 +1,46 @@
+name: Continuous Delivery
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm test
+
+      - name: Build application
+        run: npm run build
+
+      - name: Deploy application
+        run: |
+          echo "Starting deployment..."
+          mkdir -p deployed-app
+          cp -r build/* deployed-app/
+          echo "Deployment completed successfully."
+
+      - name: Verify deployment
+        run: |
+          if [ -f "deployed-app/index.js" ]
+          then
+            echo "Deployment verification successful"
+          else
+            echo "Deployment verification failed"
+            exit 1
+          fi

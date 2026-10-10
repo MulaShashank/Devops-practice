@@ -1,0 +1,12 @@
+{
+  "name": "ci-node-app",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "build": "./build.sh"
+  },
+  "devDependencies": {
+    "jest": "^29.0.0"
+  }
+}
